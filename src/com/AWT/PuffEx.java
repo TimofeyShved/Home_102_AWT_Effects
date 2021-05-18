@@ -17,6 +17,7 @@ import javax.swing.Timer;
 
 class SurfacePuffEx extends JPanel implements ActionListener {
 
+    // переменные
     private Timer timer;
     private int x = 1;
     private float alpha = 1;
@@ -24,58 +25,59 @@ class SurfacePuffEx extends JPanel implements ActionListener {
     private final int INITIAL_DELAY = 200;
 
     public SurfacePuffEx() {
-
+            // конструктор
         initTimer();
     }
 
     private void initTimer() {
-
-        timer = new Timer(DELAY, this);
-        timer.setInitialDelay(INITIAL_DELAY);
-        timer.start();
+            // таймер
+        timer = new Timer(DELAY, this); // создание таймера
+        timer.setInitialDelay(INITIAL_DELAY); // постоянство
+        timer.start(); // запуск
     }
 
     private void doDrawing(Graphics g) {
 
-        Graphics2D g2d = (Graphics2D) g.create();
+        Graphics2D g2d = (Graphics2D) g.create();// создать нашу графику
 
         RenderingHints rh =
                 new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                        RenderingHints.VALUE_ANTIALIAS_ON);
+                        RenderingHints.VALUE_ANTIALIAS_ON); // рендеринг
 
         rh.put(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
 
-        g2d.setRenderingHints(rh);
+        g2d.setRenderingHints(rh); // установка рендоринга
 
-        Font font = new Font("Dialog", Font.PLAIN, x);
-        g2d.setFont(font);
+        Font font = new Font("Dialog", Font.PLAIN, x); // шрифт
+        g2d.setFont(font); // установка
 
         FontMetrics fm = g2d.getFontMetrics();
-        String s = "ZetCode";
-        Dimension size = getSize();
+        String s = "ZetCode"; // слово
+        Dimension size = getSize(); // размер
 
-        int w = (int) size.getWidth();
+        int w = (int) size.getWidth(); // размер формы
         int h = (int) size.getHeight();
 
-        int stringWidth = fm.stringWidth(s);
+        int stringWidth = fm.stringWidth(s); // размер строки
+
         AlphaComposite ac = AlphaComposite.getInstance(
                 AlphaComposite.SRC_OVER, alpha);
         g2d.setComposite(ac);
 
-        g2d.drawString(s, (w - stringWidth) / 2, h / 2);
+        g2d.drawString(s, (w - stringWidth) / 2, h / 2); // прорисовка
 
         g2d.dispose();
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) { // прорисовка компонента
 
         super.paintComponent(g);
-        doDrawing(g);
+        doDrawing(g); // наша прорисовка
     }
 
-    private void step() {
+    private void step() {// шаг
 
         x += 1;
 
@@ -87,39 +89,39 @@ class SurfacePuffEx extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) { // активность
 
-        step();
-        repaint();
+        step(); // шаг
+        repaint(); // перисовать
     }
 }
 
 public class PuffEx extends JFrame {
 
-    public PuffEx() {
+    public PuffEx() { // конструктор
 
         initUI();
     }
 
-    private void initUI() {
+    private void initUI() { // инициализация
+
+        add(new SurfacePuffEx());// добавить наш компонент
 
         setTitle("Puff");
 
-        add(new SurfacePuffEx());
-
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);// размеры
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // выход
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // главный класс
 
-        EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() { // поток
             @Override
-            public void run() {
+            public void run() { // запуск
 
-                PuffEx ex = new PuffEx();
-                ex.setVisible(true);
+                PuffEx ex = new PuffEx();// наш класс
+                ex.setVisible(true); // видимость
             }
         });
     }
